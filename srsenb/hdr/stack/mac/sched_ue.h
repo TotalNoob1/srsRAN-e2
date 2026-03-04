@@ -44,7 +44,7 @@ class sched_ue
   using ue_cfg_t = sched_interface::ue_cfg_t;
 
 public:
-  sched_ue(uint16_t rnti, const std::vector<sched_cell_params_t>& cell_list_params_, const ue_cfg_t& cfg);
+  sched_ue(uint16_t rnti, std::vector<sched_cell_params_t>& cell_list_params_, const ue_cfg_t& cfg);
   void new_subframe(tti_point tti_rx, uint32_t enb_cc_idx);
 
   /*************************************************************

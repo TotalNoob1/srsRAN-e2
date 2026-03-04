@@ -24,11 +24,13 @@
 
 #include "sched.h"
 #include "sched_interface.h"
-/*#ifndef ENABLE_SLICER
-#include "srsenb/hdr/stack/mac/scheduler_metric.h"
-#endif*/
+#ifndef ENABLE_SLICER
+//#include "scheduler_metric.h"
+#endif
 #include "srsenb/hdr/common/rnti_pool.h"
+#ifndef ENABLE_SLICER
 #include "srsenb/hdr/stack/mac/schedulers/sched_time_rr.h"
+#endif
 #include "srsran/adt/circular_map.h"
 #include "srsran/adt/pool/batch_mem_pool.h"
 #include "srsran/common/mac_pcap.h"

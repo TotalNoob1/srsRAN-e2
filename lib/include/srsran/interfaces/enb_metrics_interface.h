@@ -51,6 +51,7 @@ struct pdcp_metrics_t {
   std::vector<srsran::pdcp_metrics_t> ues;
 };
 
+
 //#ifdef ENABLE_RIC_AGENT_KPM
 //  pdcp_metrics_kpm_t pdcp_kpm;
 //#endif

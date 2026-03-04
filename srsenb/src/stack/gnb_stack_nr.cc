@@ -174,6 +174,10 @@ bool gnb_stack_nr::get_metrics(srsenb::stack_metrics_t* metrics)
 
   // obtain MAC metrics (do not use stack thread)
   mac.get_metrics(metrics->mac);
+  #ifdef ENABLE_RIC_AGENT_KPM
+    //pdcp.get_metrics(metrics.pdcp);
+    pdcp.get_metrics_kpm(metrics->pdcp_kpm); // Get Pdcp metrics.
+  #endif
 
   // wait for RRC result
   std::unique_lock<std::mutex> lock(metrics_mutex);
@@ -216,5 +220,33 @@ void gnb_stack_nr::rach_detected(const rach_info_t& rach_info)
 {
   mac.rach_detected(rach_info);
 }
+
+#ifdef ENABLE_SLICER
+// gNodeB slicer interface
+bool gnb_stack_nr::slice_config(std::vector<slicer::slice_config_t> slice_configs)
+{
+  return false;
+}
+
+bool gnb_stack_nr::slice_delete(std::vector<std::string> slice_names)
+{
+  return false;
+}
+
+std::vector<slicer::slice_status_t> gnb_stack_nr::slice_status(std::vector<std::string> slice_names)
+{
+  return std::vector<slicer::slice_status_t>();
+}
+
+bool gnb_stack_nr::slice_ue_bind(std::string slice_name, std::vector<uint64_t> imsi_list)
+{
+  return false;
+}
+
+bool gnb_stack_nr::slice_ue_unbind(std::string slice_name, std::vector<uint64_t> imsi_list)
+{
+  return false;
+}
+#endif
 
 } // namespace srsenb

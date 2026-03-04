@@ -22,7 +22,11 @@
 #include "srsenb/hdr/stack/mac/sched_carrier.h"
 #include "srsenb/hdr/stack/mac/sched_helpers.h"
 #include "srsenb/hdr/stack/mac/schedulers/sched_time_pf.h"
+#ifdef ENABLE_SLICER
+#include "srsenb/hdr/stack/mac/schedulers/sched_time_rr_sliced.h"
+#else
 #include "srsenb/hdr/stack/mac/schedulers/sched_time_rr.h"
+#endif
 #include "srsran/common/standard_streams.h"
 #include "srsran/common/string_helpers.h"
 #include "srsran/interfaces/enb_rrc_interfaces.h"
@@ -351,7 +355,12 @@ void sched::carrier_sched::reset()
   bc_sched_ptr.reset();
 }
 
+#ifdef ENABLE_SLICER
+void sched::carrier_sched::carrier_cfg(const sched_cell_params_t& cell_params_, bool workshare)
+#else
 void sched::carrier_sched::carrier_cfg(const sched_cell_params_t& cell_params_)
+#endif
+//void sched::carrier_sched::carrier_cfg(const sched_cell_params_t& cell_params_)
 {
   // carrier_sched is now fully set
   cc_cfg = &cell_params_;
@@ -362,7 +371,11 @@ void sched::carrier_sched::carrier_cfg(const sched_cell_params_t& cell_params_)
 
   // Setup data scheduling algorithms
   if (cell_params_.sched_cfg->sched_policy == "time_rr") {
+    #ifdef ENABLE_SLICER
+    sched_algo.reset(new sched_time_rr_sliced{*cc_cfg, *cell_params_.sched_cfg, workshare});
+    #else
     sched_algo.reset(new sched_time_rr{*cc_cfg, *cell_params_.sched_cfg});
+    #endif
     logger.info("Using time-domain RR scheduling policy for cc=%d", cc_cfg->enb_cc_idx);
   } else {
     sched_algo.reset(new sched_time_pf{*cc_cfg, *cell_params_.sched_cfg});
