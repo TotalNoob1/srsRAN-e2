@@ -3,7 +3,9 @@
 
 #include <list>
 #include <cstdint>
-
+#if __GNUC__ >= 11 
+#include <cstddef>
+#endif
 /* RIC E2AP port. */
 #define E2AP_PORT 36422
 

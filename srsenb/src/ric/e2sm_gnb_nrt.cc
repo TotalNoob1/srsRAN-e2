@@ -12,7 +12,9 @@
 #include "E2SM_GNB_NRT_RIC-ReportStyle-List.h"
 #include "E2SM_GNB_NRT_RIC-EventTriggerStyle-List.h"
 #include "E2SM_GNB_NRT_RANparameterDef-Item.h"
-
+#if __GNUC__ >= 11 
+#include <cstddef>
+#endif
 namespace ric {
 
 int gnb_nrt_model::init()
